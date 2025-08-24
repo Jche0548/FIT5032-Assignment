@@ -1,12 +1,16 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import logoUrl from './assets/wellness.png'  
 </script>
 
 <template>
   <header>
     <nav class="navbar navbar-expand-lg bg-light border-bottom">
       <div class="container">
-        <RouterLink class="navbar-brand fw-bold" to="/">Wellness Hub</RouterLink>
+        <RouterLink class="navbar-brand fw-bold d-flex align-items-center" to="/">
+          <img :src="logoUrl" alt="Wellness Hub Logo" height="32" class="me-2" />
+          Wellness Hub
+        </RouterLink>
 
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse" data-bs-target="#nav"
@@ -16,6 +20,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
         <div id="nav" class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><RouterLink class="nav-link" to="/about">About</RouterLink></li>
             <li class="nav-item"><RouterLink class="nav-link" to="/activities">Activities</RouterLink></li>
             <li class="nav-item"><RouterLink class="nav-link" to="/resources">Resources</RouterLink></li>
             <li class="nav-item"><RouterLink class="nav-link" to="/map">Community Map</RouterLink></li>
@@ -34,7 +39,3 @@ import { RouterLink, RouterView } from 'vue-router'
     © 2025 Wellness Hub
   </footer>
 </template>
-
-<style>
-.nav-link.router-link-active { font-weight: 600; }
-</style>
