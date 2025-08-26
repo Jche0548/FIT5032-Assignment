@@ -1,0 +1,6 @@
+[
+    { "id": 1, "name": "Central Park", "category": "Park", "suburb": "Clayton", "accessible": true },
+    { "id": 2, "name": "Community Gym", "category": "Gym", "suburb": "Mulgrave", "accessible": false },
+    { "id": 3, "name": "Monash Aquatic Centre", "category": "Pool", "suburb": "Glen Waverley", "accessible": true }
+  ]
+  

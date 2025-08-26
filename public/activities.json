@@ -1,0 +1,6 @@
+[
+    { "id": 101, "title": "Pilates", "type": "Fitness", "date": "2025-09-05", "time": "10:00", "location": "Glen Waverley", "fee": 0, "desc": "Pilates suitable for all levels." },
+    { "id": 102, "title": "Family Swim",     "type": "Family",  "date": "2025-09-07", "time": "14:00", "location": "Monash Aquatic Centre", "fee": 5, "desc": "Family-friendly swimming session." },
+    { "id": 103, "title": "Social Basketball","type": "Team",    "date": "2025-09-10", "time": "18:30","location": "Clayton Community Gym", "fee": 2, "desc": "Casual 3v3 matches." }
+  ]
+  

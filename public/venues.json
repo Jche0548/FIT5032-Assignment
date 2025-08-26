@@ -1,0 +1,19 @@
+[
+    {
+      "id": 1,
+      "name": "Clayton Stadium",
+      "address": "🏠 88 Super Road, Clayton VIC 3168",
+      "size": "📐 2500 sq/m",
+      "phone": "📞 1303789639",
+      "email": "💻 clayton@stadium.com.au"
+    },
+    {
+      "id": 2,
+      "name": "Monash Aquatic & Recreation Centre",
+      "address": "🏠 626 Waverley Rd, Glen Waverley VIC 3150",
+      "size": "📐 3200 sq/m",
+      "phone": "📞 0392654888",
+      "email": "💻 MonashAqu@gmail.com.au"
+    }
+  ]
+  

@@ -20,7 +20,6 @@
         <ul class="mb-0">
           <li>Curate and promote community sport and wellness activities.</li>
           <li>Provide educational resources on physical activity and healthy living.</li>
-          <li>Support inclusive participation with accessibility information and filters.</li>
           <li>Connect local clubs, facilities, coaches, and volunteers with residents.</li>
         </ul>
       </section>
@@ -45,7 +44,7 @@
       <!-- CTA -->
       <section class="mb-4">
         <h2 class="h5">Get Involved</h2>
-        <p class="mb-2">Want to list an event or partner with us?</p>
+        <p class="mb-2">Want to know more events or partner with us?</p>
         <RouterLink class="btn btn-primary btn-sm" to="/contact">Contact Us</RouterLink>
       </section>
     </div>
