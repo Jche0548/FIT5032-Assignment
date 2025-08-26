@@ -70,6 +70,14 @@ onMounted(async () => {
         size: '3200 sq/m',
         phone: '0392654888',
         email: 'MonashAqu@gmail.com.au'
+      },
+      {
+        id: 3,
+        name: "Oakleigh Recreation Centre",
+        address: "🏠 2A Park Rd, Oakleigh VIC 3166",
+        size: "📐 2400 sq/m",
+        phone: "📞 0392633938",
+        email: "💻 OakleighRec@gmail.com.au"
       }
     ]
   } finally {
@@ -77,5 +85,5 @@ onMounted(async () => {
   }
 })
 
-const featured = computed(() => venues.value.slice(0, 2))
+const featured = computed(() => venues.value)
 </script>
