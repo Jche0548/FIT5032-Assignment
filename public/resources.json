@@ -1,6 +1,8 @@
 [
     { "id": 1, "title": "Exercise Guide: Staying Active at Home", "category": "Exercise" },
     { "id": 2, "title": "Nutrition Tips for Busy People", "category": "Nutrition" },
-    { "id": 3, "title": "Benefits of Regular Physical Activity", "category": "Exercise" }
-  ]
+    { "id": 3, "title": "Benefits of Regular Physical Activity", "category": "Exercise" },
+    { "id": 4, "title": "Healthy Diet Guide for Seniors", "category": "Nutrition" },
+    { "id": 5, "title": "Basic Pilates Teaching Guide", "category": "Exercise" }
+]
   

@@ -1,6 +1,62 @@
 [
-    { "id": 101, "title": "Pilates", "type": "Fitness", "date": "2025-09-05", "time": "10:00", "location": "Glen Waverley", "fee": 0, "desc": "Pilates suitable for all levels." },
-    { "id": 102, "title": "Family Swim",     "type": "Family",  "date": "2025-09-07", "time": "14:00", "location": "Monash Aquatic Centre", "fee": 5, "desc": "Family-friendly swimming session." },
-    { "id": 103, "title": "Social Basketball","type": "Team",    "date": "2025-09-10", "time": "18:30","location": "Clayton Community Gym", "fee": 2, "desc": "Casual 3v3 matches." }
-  ]
-  
+  {
+    "id": 301,
+    "title": "Group Pilates Classes",
+    "type": "Group",
+    "date": "2025-09-05",
+    "time": "10:00",
+    "location": "Glen Waverley Community Centre",
+    "fee": 35,
+    "desc": "Low-impact core strength and mobility in a supportive group setting."
+  },
+  {
+    "id": 302,
+    "title": "Group Swimming Classes",
+    "type": "Swimming",
+    "date": "2025-09-07",
+    "time": "14:00",
+    "location": "Monash Aquatic & Recreation Centre",
+    "fee": 30,
+    "desc": "Technique and endurance session for mixed abilities."
+  },
+  {
+    "id": 303,
+    "title": "Basic Basketball Classes",
+    "type": "Basketball",
+    "date": "2025-09-10",
+    "time": "18:30",
+    "location": "Clayton Community Gym",
+    "fee": 20,
+    "desc": "Fundamentals: dribbling, passing, and shooting for beginners."
+  },
+  {
+    "id": 304,
+    "title": "Group Fitness Classes",
+    "type": "Fitness",
+    "date": "2025-09-12",
+    "time": "09:00",
+    "location": "Oakleigh Recreation Centre",
+    "fee": 25,
+    "desc": "Circuit-style full-body workout. Suitable for all levels."
+  },
+  {
+    "id": 305,
+    "title": "Gymnastics Classes for Seniors",
+    "type": "Gymnastics",
+    "date": "2025-09-13",
+    "time": "11:00",
+    "location": "Mulgrave Community Hall",
+    "fee": 10,
+    "desc": "Balance, flexibility, and safe mobility training for seniors."
+  },
+  {
+    "id": 306,
+    "title": "Children's Taekwondo Classes",
+    "type": "Taekwondo",
+    "date": "2025-09-15",
+    "time": "16:00",
+    "location": "Mount Waverley Youth Centre",
+    "fee": 10,
+    "desc": "Discipline, coordination, and fun drills for kids aged 6 - 12."
+  }
+]

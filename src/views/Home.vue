@@ -61,7 +61,7 @@ onMounted(async () => {
         address: '88 Super Road, Clayton VIC 3168',
         size: '2500 sq/m',
         phone: '1303789639',
-        email: 'clayton@stadium.com.au'
+        email: 'Clayton@stadium.com.au'
       },
       {
         id: 2,
