@@ -1,6 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue'
+import { useAuth } from './stores/auth'
 import logoUrl from './assets/wellness.png'  
+
+const { state, logout } = useAuth()
+const isAuthed = computed(() => !!state.currentUser)
+const isAdmin = computed(() => state.currentUser?.role === 'admin')
+const displayName = computed(() => state.currentUser?.name || '')
 </script>
 
 <template>
@@ -25,6 +32,20 @@ import logoUrl from './assets/wellness.png'
             <li class="nav-item"><RouterLink class="nav-link" to="/resources">Resources</RouterLink></li>
             <li class="nav-item"><RouterLink class="nav-link" to="/map">Community Map</RouterLink></li>
             <li class="nav-item"><RouterLink class="nav-link" to="/contact">Contact</RouterLink></li>
+
+            <!--Only Admin can see-->
+            <li v-if="isAdmin" class="nav-item ms-lg-2">
+              <RouterLink class="btn btn-outline-secondary btn-sm" to="/admin">Admin</RouterLink>
+            </li>
+
+            <!--Identity Zone-->
+            <li class="nav-item ms-lg-3" v-if="isAuthed">
+              <span class="navbar-text small me-2">Hi, {{ displayName }}</span>
+              <button class="btn btn-outline-dark btn-sm" @click="logout">Logout</button>
+            </li>
+            <li class="nav-item ms-lg-3" v-else>
+              <RouterLink class="btn btn-primary btn-sm" to="/">Login / Register</RouterLink>
+            </li>
           </ul>
         </div>
       </div>

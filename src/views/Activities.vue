@@ -47,36 +47,49 @@
 
     <!-- Cards -->
     <div class="row g-3">
-      <div class="col-12 col-md-6 col-lg-4" v-for="a in filtered" :key="a.id">
-        <div class="card h-100">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">{{ a.title }}</h5>
-              <span class="badge" :class="badgeClass(a.type)">{{ a.type }}</span>
-            </div>
+  <div class="col-12 col-md-6 col-lg-4" v-for="a in filtered" :key="a.id">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="card-title mb-0">{{ a.title }}</h5>
 
-            <p class="card-text mb-1">
-              <strong>Date:</strong> {{ fmtDate(a.date) }}
-              &nbsp; <strong>Time:</strong> {{ a.time }}
-            </p>
-            <p class="card-text mb-2">
-              <strong>Location:</strong> {{ a.location }}
-              &nbsp; | &nbsp;
-              <strong>Fee:</strong>
-              <span :class="a.fee === 0 ? 'badge bg-success' : ''">
-                {{ a.fee === 0 ? 'Free' : fmtCurrency(a.fee) }}
-              </span>
-            </p>
-
-            <p class="card-text text-muted small flex-grow-1">{{ a.desc }}</p>
-
-            <RouterLink class="btn btn-primary mt-2" to="/contact" aria-label="Register for activity">
-              Register
-            </RouterLink>
-          </div>
+          <span class="badge ms-2" :class="badgeClass(a.type)">{{ a.type }}</span>
         </div>
+
+        <!-- Rating -->
+        <StarRating
+          class="mt-2"
+          :value="a.avg"
+          :count="a.count"
+          :editable="isAuthed"
+          :userScore="a.myScore"
+          @rate="(s) => onRate(a, s)"
+        />
+
+        <ul class="list-unstyled small mt-2 mb-2">
+          <li class="mb-1">
+            <i class="bi bi-calendar-event me-2"></i>
+            <strong>Date:</strong> {{ fmtDate(a.date) }}
+          </li>
+          <li class="mb-1">
+            <i class="bi bi-clock me-2"></i>
+            <strong>Time:</strong> {{ a.time }}
+          </li>
+          <li class="mb-1">
+            <i class="bi bi-geo-alt me-2"></i>
+            <strong>Location:</strong> {{ a.location }}
+          </li>
+        </ul>
+
+
+        <p class="card-text text-muted small flex-grow-1">{{ a.desc }}</p>
+
+        <RouterLink class="btn btn-primary mt-2" :to="`/contact`">Register</RouterLink>
+        <small v-if="!isAuthed" class="text-muted mt-2">Login to rate this activity.</small>
       </div>
     </div>
+  </div>
+</div>
 
     <!-- Empty state -->
     <div v-if="!loading && filtered.length === 0" class="alert alert-warning mt-3">
@@ -87,6 +100,14 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
+import StarRating from '../components/StarRating.vue'
+import { useAuth } from '../stores/auth'
+import { getSummary, getUserScore, rate } from '../utils/ratings'
+
+const { state } = useAuth()
+const isAuthed = computed(() => !!state.currentUser)
+const currentEmail = computed(() => state.currentUser?.email || null)
 
 const loading = ref(true)
 const error = ref(false)
@@ -112,7 +133,8 @@ onMounted(async () => {
   try {
     const res = await fetch('/activities.json')
     if (!res.ok) throw new Error('HTTP ' + res.status)
-    activities.value = await res.json()
+    const raw = await res.json()
+    activities.value = raw.map(a => withRatingFields(a))
   } catch (e) {
     error.value = true
     // Fallback data (matches your new categories)
@@ -124,6 +146,20 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+function withRatingFields(a) {
+  const { avg, count } = getSummary(a.id)
+  const mine = currentEmail.value ? getUserScore(a.id, currentEmail.value) : null
+  return { ...a, avg, count, myScore: mine }
+}
+
+function onRate(a, score) {
+  if (!isAuthed.value) return
+  const { avg, count } = rate(a.id, currentEmail.value, score)
+  a.avg = avg
+  a.count = count
+  a.myScore = score
+}
 
 // filtering
 const filtered = computed(() => {
