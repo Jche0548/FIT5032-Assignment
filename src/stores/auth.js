@@ -1,13 +1,24 @@
 // src/stores/auth.js
 import { reactive, computed } from 'vue'
 
+const AUTH_KEY = 'wh_auth'
+const USERS_KEY = 'wh_users'
+
 const state = reactive({
-  currentUser: JSON.parse(localStorage.getItem('wh_user') || 'null') // {email, name, role, token}
+  currentUser: safeParse(localStorage.getItem(AUTH_KEY))
 })
 
-function persist(user) {
+function safeParse(json) {
+  try { return JSON.parse(json) } catch { return null }
+}
+
+function setCurrentUser(user) {
   state.currentUser = user
-  localStorage.setItem('wh_user', JSON.stringify(user))
+  if (user) {
+    localStorage.setItem(AUTH_KEY, JSON.stringify(user))
+  } else {
+    localStorage.removeItem(AUTH_KEY)
+  }
 }
 
 export function useAuth() {
@@ -16,25 +27,32 @@ export function useAuth() {
 
   function register({ name, email, password, role = 'user' }) {
     // Fake database: users stored in localStorage
-    const users = JSON.parse(localStorage.getItem('wh_users') || '[]')
-    if (users.some(u => u.email === email)) throw new Error('Email already registered')
-    users.push({ name, email, password, role })
-    localStorage.setItem('wh_users', JSON.stringify(users))
-    state.currentUser = { name, email, role, token: crypto.randomUUID() }
-    save()
-  }
+    const users = safeParse(localStorage.getItem(USERS_KEY)) || []
+    if (users.some(u => u.email === email)) {
+      throw new Error('Email already registered')
+    }
 
+    const newUSer = { name, email, password, role }
+    users.push(newUSer)
+    localStorage.setItem(USERS_KEY, JSON.stringify(users))
+
+    const { password: _, ...sessionUSer } = newUSer
+    setCurrentUser(sessionUSer)
+  }
+  
+  
   function login({ email, password }) {
-    const users = JSON.parse(localStorage.getItem('wh_users') || '[]')
-    const user = users.find(u => u.email === email && u.password === password)
-    if (!user) throw new Error('Invalid email or password')
-    state.currentUser = { name: user.name, email: user.email, role: user.role, token: crypto.randomUUID() }
-    save()
+    const users = safeParse(localStorage.getItem(USERS_KEY)) || []
+    const found = users.find(u => u.email === email && u.password === password)
+    if (!found) return false
+
+    const { password: _, ...sessionUser } = found
+    setCurrentUser(sessionUser)
+    return true
   }
 
   function logout() {
-    state.currentUser = null
-    save()
+    stetCurrentUser(null)
   }
 
   return { state, isAuthenticated, role, register, login, logout }
