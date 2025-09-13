@@ -52,7 +52,8 @@ export function useAuth() {
   }
 
   function logout() {
-    stetCurrentUser(null)
+    setCurrentUser(null)
+    localStorage.removeItem('wh_auth')
   }
 
   return { state, isAuthenticated, role, register, login, logout }

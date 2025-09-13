@@ -1,13 +1,20 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { useAuth } from './stores/auth'
 import logoUrl from './assets/wellness.png'  
 
+const router = useRouter()
 const { state, logout } = useAuth()
 const isAuthed = computed(() => !!state.currentUser)
 const isAdmin = computed(() => state.currentUser?.role === 'admin')
 const displayName = computed(() => state.currentUser?.name || '')
+
+function onLogout () {
+  logout()
+  localStorage.removeItem('login_msg')
+  router.push('/').then(() => window.scrollTo(0, 0))
+}
 </script>
 
 <template>

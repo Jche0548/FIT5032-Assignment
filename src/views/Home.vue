@@ -9,7 +9,7 @@
         <strong>Hi, {{ user.name }}</strong>
         <span class="ms-2 badge bg-secondary text-uppercase">{{ user.role }}</span>
       </div>
-      <button class="btn btn-outline-light btn-sm" @click="logout">Logout</button>
+      <button class="btn btn-outline-light btn-sm" @click="onLogout">Logout</button>
     </div>
 
     <div v-else class="card shadow-sm mt-3" style="max-width: 520px;">
@@ -51,7 +51,7 @@
               {{ showLoginForm ? " Become one of us!! Register Now!!" : "Already have an account? Login" }}
         </button>
 
-          <div v-if="msg" class="alert mt-3" :class="ok ? 'alert-success' : 'alert-danger'">
+          <div v-if="msg" :class="['alert', ok ? 'alert-success' : 'alert-danger']">
             {{ msg }}
           </div>
         </form>
@@ -99,6 +99,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useAuth } from '../stores/auth'
 
 const { state, login, logout, register } = useAuth()
+
 const isAuthenticated = computed(() => !!state.currentUser)
 const user = computed(() => state.currentUser || { name: '', role: '' })
 
@@ -106,46 +107,77 @@ const showLoginForm = ref(true)
 const name = ref('')
 const email = ref('')
 const password = ref('')
-const role = ref('user')
+const role = ref('user')  
 
 const msg = ref('')
 const ok = ref(false)
 
+onMounted(() => {
+  const stored = localStorage.getItem('login_msg')
+  if (stored) {
+    msg.value = stored
+    ok.value = true
+    localStorage.removeItem('login_msg') 
+  }
+})
+
 function toggleForm () {
   showLoginForm.value = !showLoginForm.value
+
   name.value = ''
   email.value = ''
   password.value = ''
-  role.value = ''
+  role.value = 'user'     
   msg.value = ''
   ok.value = false
 }
 
-function onSubmit () {
+function onLogout () {
+  logout()
+  localStorage.removeItem('login_msg')
   msg.value = ''
   ok.value = false
+  showLoginForm.value = true
+}
+
+async function onSubmit () {
+  msg.value = ''
+  ok.value = false
+
   try {
-    if (!email.value || !password.value) throw new Error('Please enter email and password')
-    
+    if (!email.value || !password.value) {
+      throw new Error('Please enter email and password')
+    }
+
     if (showLoginForm.value) {
       // Login
-      login({ email: email.value, password: password.value })
+      const success = await login({ email: email.value, password: password.value })
+      if (!success) {
+        throw new Error('Invalid email or password')
+      }
       ok.value = true
       msg.value = 'Login successful'
     } else {
       // Register
-      if (name.value.length < 2) throw new Error ('Name must be at least 2 characters')
-      register({ name: name.value, email: email.value, password: password.value, role: role.value })
+      if (name.value.trim().length < 2) {
+        throw new Error('Name must be at least 2 characters')
+      }
+      await register({
+        name: name.value.trim(),
+        email: email.value.trim(),
+        password: password.value,
+        role: role.value || 'user'
+      })
       ok.value = true
       msg.value = 'Register successful'
     }
-    
-    // Clear the field after success
+
     name.value = ''
     email.value = ''
     password.value = ''
   } catch (e) {
-    msg.value = e.message || 'Something wrong!!!'
+    msg.value = e?.message || 'Something went wrong'
+    ok.value = false
   }
 }
 

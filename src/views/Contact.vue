@@ -1,75 +1,79 @@
+<!-- src/views/Contact.vue -->
 <template>
   <div class="container">
     <h1 class="mb-3">Contact Us</h1>
     <p class="text-muted">We'd love to hear from you. Please reach out with any questions or feedback.</p>
 
     <form novalidate @submit.prevent="onSubmit" class="row g-3">
-      <!-- Name (required + minimum length 2) -->
+      <!-- Name -->
       <div class="col-md-6">
-        <label class="form-label">Name</label>
+        <label class="form-label" for="name">Name</label>
         <input
+          id="name"
           v-model.trim="form.name"
           @blur="touched.name = true"
-          :class="inputClass(nameError)"
           type="text"
           class="form-control"
           placeholder="Your full name"
           aria-describedby="nameHelp"
-          aria-invalid="true"
         />
         <div id="nameHelp" class="form-text">Please enter at least 2 characters.</div>
-        <div v-if="showError(nameError, touched.name)" class="invalid-feedback d-block">
+        <div v-if="showError(nameError, touched.name)" class="text-danger small mt-1">
           {{ nameError }}
         </div>
       </div>
 
-      <!-- Email (required + Email format)-->
+      <!-- Email -->
       <div class="col-md-6">
-        <label class="form-label">Email</label>
+        <label class="form-label" for="email">Email</label>
         <input
+          id="email"
           v-model.trim="form.email"
           @blur="touched.email = true"
-          :class="inputClass(emailError)"
           type="email"
           class="form-control"
           placeholder="name@example.com"
-          aria-invalid="true"
+          inputmode="email"
+          autocomplete="email"
         />
-        <div v-if="showError(emailError, touched.email)" class="invalid-feedback d-block">
+        <div v-if="showError(emailError, touched.email)" class="text-danger small mt-1">
           {{ emailError }}
         </div>
       </div>
 
-      <!-- Message (required + minimum length 10)-->
+      <!-- Message -->
       <div class="col-12">
-        <label class="form-label">Message</label>
+        <label class="form-label" for="message">Message</label>
         <textarea
+          id="message"
           v-model.trim="form.message"
           @blur="touched.message = true"
-          :class="inputClass(messageError)"
           class="form-control"
           rows="4"
           placeholder="How can we help?"
-          aria-invalid="true"
+          aria-describedby="msgHelp"
         ></textarea>
-        <div v-if="showError(messageError, touched.message)" class="invalid-feedback d-block">
+        <div id="msgHelp" class="form-text">At least 10 characters.</div>
+        <div v-if="showError(messageError, touched.message)" class="text-danger small mt-1">
           {{ messageError }}
         </div>
       </div>
 
-      <!-- Terms (required) -->
-      <div class="col-12 form-check">
-        <input
-          id="terms"
-          v-model="form.terms"
-          @blur="touched.terms = true"
-          class="form-check-input"
-          type="checkbox"
-        />
-        <label class="form-check-label" for="terms">
-          I agree to the Privacy Policy and Terms.
-        </label>
-        <div v-if="showError(termsError, touched.terms)" class="invalid-feedback d-block">
+      <!-- Terms -->
+      <div class="col-12">
+        <div class="form-check">
+          <input
+            id="terms"
+            v-model="form.terms"
+            @blur="touched.terms = true"
+            class="form-check-input"
+            type="checkbox"
+          />
+          <label class="form-check-label" for="terms">
+            I agree to the Privacy Policy and Terms.
+          </label>
+        </div>
+        <div v-if="showError(termsError, touched.terms)" class="text-danger small mt-1">
           {{ termsError }}
         </div>
       </div>
@@ -78,21 +82,22 @@
         <button class="btn btn-success" type="submit" :disabled="!isFormValid">
           Send Message
         </button>
-        <span class="ms-2 text-muted small">(Button enables when all fields are valid)</span>
+        <span class="ms-2 text-muted small">(The button is enabled when all fields are valid)</span>
       </div>
     </form>
 
-    <!-- Success Message -->
+    <!-- Success -->
     <div v-if="submitted" class="alert alert-success mt-4">
-       Your message has been sent. We'll get back to you soon.
+      Your message has been sent. We'll get back to you soon.
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, computed, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
+import { sanitizeText, sanitizeEmail } from '../utils/sanitize'
 
-// Form Information
+// form state
 const form = reactive({
   name: '',
   email: '',
@@ -100,7 +105,7 @@ const form = reactive({
   terms: false
 })
 
-// Touch status (errors are displayed only after blurring; they will be marked when submitting)
+// "touched" Status: Error is displayed only after blur
 const touched = reactive({
   name: false,
   email: false,
@@ -110,7 +115,7 @@ const touched = reactive({
 
 const submitted = ref(false)
 
-// Validation Rules
+// validators
 const emailRE = /^\S+@\S+\.\S+$/
 
 const nameError = computed(() => {
@@ -136,32 +141,45 @@ const termsError = computed(() => {
   return ''
 })
 
-// Is the overall effectiveness
 const isFormValid = computed(() =>
   !nameError.value && !emailError.value && !messageError.value && !termsError.value
 )
 
-// Auxiliary: Display error and input box style
 function showError(error, isTouched) {
   return Boolean(error) && isTouched
 }
-function inputClass(error) {
-  return ['form-control', error ? 'is-invalid' : (error === '' ? 'is-valid' : '')]
-}
 
-// submit
 function onSubmit() {
-  // Treat all fields as touched on submission
-  Object.keys(touched).forEach(k => touched[k] = true)
+  // Mark all fields as touched on submission
+  Object.keys(touched).forEach(k => (touched[k] = true))
 
-  if (isFormValid.value) {
-    submitted.value = true
-    // Clear the form (you can also choose to keep it)
-    form.name = ''
-    form.email = ''
-    form.message = ''
-    form.terms = false
-    Object.keys(touched).forEach(k => touched[k] = false)
+  if (!isFormValid.value) return
+
+  // Basic sanitization (avoids inserting HTML)
+  const safePayload = {
+    name: sanitizeText(form.name),
+    email: sanitizeEmail(form.email),
+    message: sanitizeText(form.message),
+    ts: new Date().toISOString()
   }
+
+  try {
+    const key = 'wh_contact_msgs'
+    const list = JSON.parse(localStorage.getItem(key) || '[]')
+    list.push(safePayload)
+    localStorage.setItem(key, JSON.stringify(list))
+  } catch {}
+
+  submitted.value = true
+
+  // Reset Form
+  form.name = ''
+  form.email = ''
+  form.message = ''
+  form.terms = false
+  Object.keys(touched).forEach(k => (touched[k] = false))
 }
 </script>
+
+<style scoped>
+</style>

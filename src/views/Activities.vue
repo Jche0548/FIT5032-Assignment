@@ -40,7 +40,7 @@
     </div>
 
     <!-- Loading / Error -->
-    <div v-if="loading" class="alert alert-info" role="status">Loading activities…</div>
+    <div v-if="loading" class="alert alert-info" role="status">Loading activities...</div>
     <div v-else-if="error" class="alert alert-danger" role="alert">
       Failed to load activities. Showing fallback data.
     </div>
@@ -52,9 +52,10 @@
       <div class="card-body d-flex flex-column">
         <div class="d-flex align-items-center justify-content-between">
           <h5 class="card-title mb-0">{{ a.title }}</h5>
-
           <span class="badge ms-2" :class="badgeClass(a.type)">{{ a.type }}</span>
         </div>
+
+
 
         <!-- Rating -->
         <StarRating
@@ -78,6 +79,11 @@
           <li class="mb-1">
             <i class="bi bi-geo-alt me-2"></i>
             <strong>Location:</strong> {{ a.location }}
+          </li>
+          <li class="mb-1">
+            <i class="bi bi-cash-coin me-2"></i>
+            <strong>Fee:</strong>
+            {{ a.fee === 0 ? 'Free' : fmtCurrency(a.fee) }}
           </li>
         </ul>
 
