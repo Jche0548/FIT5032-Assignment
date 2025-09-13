@@ -34,7 +34,7 @@ function onClick(s) {
 
 <template>
   <div class="d-flex align-items-center gap-2">
-    <!-- 星星列 -->
+    <!-- Star list -->
     <div class="d-inline-flex" @mouseleave="onLeave">
       <button
         v-for="s in stars"
