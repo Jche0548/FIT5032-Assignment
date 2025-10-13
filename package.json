@@ -9,8 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@fullcalendar/core": "^6.1.19",
+    "@fullcalendar/daygrid": "^6.1.19",
+    "@fullcalendar/interaction": "^6.1.19",
+    "@fullcalendar/timegrid": "^6.1.19",
+    "@fullcalendar/vue3": "^6.1.19",
+    "@google/generative-ai": "^0.24.1",
+    "@googlemaps/js-api-loader": "^2.0.1",
     "bootstrap": "^5.3.7",
     "bootstrap-icons": "^1.13.1",
+    "chart.js": "^4.5.1",
+    "firebase": "^12.3.0",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"
   },

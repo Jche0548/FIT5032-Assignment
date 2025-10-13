@@ -13,6 +13,12 @@ const routes = [
   { path: '/contact',     name: 'contact',   component: () => import('../views/Contact.vue') },
   { path: '/admin', component: () => import('../views/protected/Admin.vue'), meta: { requiresAuth: true, roles: ['admin'] }},
   { path: '/unauthorized', component: () => import('../views/Unauthorized.vue') },
+  { path: '/calendar', name: 'calendar', component: () => import('../views/Calendar.vue') },
+  { path: '/tables', name: 'tables', component: () => import('../views/Tables.vue') },
+  { path: '/charts', name: 'charts', component: () => import('../views/Charts.vue') },
+  { path: '/genai', name: 'genai', component: () => import('../views/GenAI.vue') },
+  { path: '/progress', name: 'ProgressTracker', component: () => import('../views/ProgressTracker.vue')},
+
 
 
   // Protected Pages

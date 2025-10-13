@@ -79,16 +79,19 @@
       </div>
 
       <div class="col-12">
-        <button class="btn btn-success" type="submit" :disabled="!isFormValid">
-          Send Message
+        <button class="btn btn-success" type="submit" :disabled="!isFormValid || sending">
+          {{ sending ? 'Sending...' : 'Send Message' }}
         </button>
         <span class="ms-2 text-muted small">(The button is enabled when all fields are valid)</span>
       </div>
     </form>
 
-    <!-- Success -->
+    <!-- Messages -->
     <div v-if="submitted" class="alert alert-success mt-4">
-      Your message has been sent. We'll get back to you soon.
+      ✅ Your message has been sent successfully!
+    </div>
+    <div v-if="errorMsg" class="alert alert-danger mt-4">
+      ❌ {{ errorMsg }}
     </div>
   </div>
 </template>
@@ -97,25 +100,19 @@
 import { reactive, ref, computed } from 'vue'
 import { sanitizeText, sanitizeEmail } from '../utils/sanitize'
 
-// form state
+// ======= Form state =======
 const form = reactive({
   name: '',
   email: '',
   message: '',
   terms: false
 })
-
-// "touched" Status: Error is displayed only after blur
-const touched = reactive({
-  name: false,
-  email: false,
-  message: false,
-  terms: false
-})
-
+const touched = reactive({ name: false, email: false, message: false, terms: false })
 const submitted = ref(false)
+const sending = ref(false)
+const errorMsg = ref('')
 
-// validators
+// ======= Validation =======
 const emailRE = /^\S+@\S+\.\S+$/
 
 const nameError = computed(() => {
@@ -123,63 +120,70 @@ const nameError = computed(() => {
   if (form.name.length < 2) return 'Name must be at least 2 characters.'
   return ''
 })
-
 const emailError = computed(() => {
   if (!form.email) return 'Email is required.'
   if (!emailRE.test(form.email)) return 'Please enter a valid email address.'
   return ''
 })
-
 const messageError = computed(() => {
   if (!form.message) return 'Message is required.'
   if (form.message.length < 10) return 'Message must be at least 10 characters.'
   return ''
 })
-
-const termsError = computed(() => {
-  if (!form.terms) return 'You must accept the terms to continue.'
-  return ''
-})
+const termsError = computed(() => (!form.terms ? 'You must accept the terms to continue.' : ''))
 
 const isFormValid = computed(() =>
   !nameError.value && !emailError.value && !messageError.value && !termsError.value
 )
+const showError = (error, isTouched) => Boolean(error) && isTouched
 
-function showError(error, isTouched) {
-  return Boolean(error) && isTouched
-}
+// ======= Firebase Cloud Function endpoint =======
+const endpoint = 'http://127.0.0.1:5001/assignment-dbecc/australia-southeast1/api/submitMessage'
 
-function onSubmit() {
-  // Mark all fields as touched on submission
+// ======= Submit via Cloud Function =======
+async function onSubmit() {
   Object.keys(touched).forEach(k => (touched[k] = true))
+  errorMsg.value = ''
+  submitted.value = false
 
   if (!isFormValid.value) return
 
-  // Basic sanitization (avoids inserting HTML)
-  const safePayload = {
+  const payload = {
     name: sanitizeText(form.name),
     email: sanitizeEmail(form.email),
     message: sanitizeText(form.message),
     ts: new Date().toISOString()
   }
 
+  // Optional local backup
   try {
     const key = 'wh_contact_msgs'
     const list = JSON.parse(localStorage.getItem(key) || '[]')
-    list.push(safePayload)
+    list.push(payload)
     localStorage.setItem(key, JSON.stringify(list))
   } catch {}
 
-  submitted.value = true
+  sending.value = true
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
 
-  // Reset Form
-  form.name = ''
-  form.email = ''
-  form.message = ''
-  form.terms = false
-  Object.keys(touched).forEach(k => (touched[k] = false))
+    const data = await res.json()
+    if (!res.ok || data?.status !== 'ok') throw new Error('Submission failed')
+
+    submitted.value = true
+    form.name = ''
+    form.email = ''
+    form.message = ''
+    form.terms = false
+    Object.keys(touched).forEach(k => (touched[k] = false))
+  } catch (err) {
+    errorMsg.value = 'Failed to send message. Please try again later.'
+  } finally {
+    sending.value = false
+  }
 }
 </script>
-
-<style scoped>
-</style>
