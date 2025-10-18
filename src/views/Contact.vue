@@ -138,7 +138,8 @@ const isFormValid = computed(() =>
 const showError = (error, isTouched) => Boolean(error) && isTouched
 
 // ======= Firebase Cloud Function endpoint =======
-const endpoint = 'http://127.0.0.1:5001/assignment-dbecc/australia-southeast1/api/submitMessage'
+const endpoint = 'https://australia-southeast1-assignment-dbecc.cloudfunctions.net/api/submitMessage'
+console.log('[Contact] POST', endpoint) 
 
 // ======= Submit via Cloud Function =======
 async function onSubmit() {

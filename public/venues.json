@@ -3,88 +3,162 @@
     {
       "id": 1,
       "name": "Clayton Stadium",
-      "address": "🏠 88 Super Road, Clayton VIC 3168",
-      "size": "📐 2800 sq/m",
-      "phone": "📞 1303789639",
-      "email": "💻 Clayton@stadium.com.au",
+      "address": "88 Super Road, Clayton VIC 3168",
+      "size": "2800 sq/m",
+      "phone": "1303789639",
+      "email": "clayton@stadium.com.au",
       "lat": -37.9167,
       "lng": 145.1234
     },
     {
       "id": 2,
       "name": "Monash Aquatic & Recreation Centre",
-      "address": "🏠 626 Waverley Rd, Glen Waverley VIC 3150",
-      "size": "📐 3200 sq/m",
-      "phone": "📞 0392654888",
-      "email": "💻 MonashAqu@gmail.com.au",
+      "address": "626 Waverley Rd, Glen Waverley VIC 3150",
+      "size": "3200 sq/m",
+      "phone": "0392654888",
+      "email": "monashaqu@gmail.com.au",
       "lat": -37.8753,
       "lng": 145.0812
     },
     {
       "id": 3,
       "name": "Oakleigh Recreation Centre",
-      "address": "🏠 2A Park Rd, Oakleigh VIC 3166",
-      "size": "📐 2400 sq/m",
-      "phone": "📞 0392633938",
-      "email": "💻 OakleighRec@gmail.com.au",
+      "address": "2A Park Rd, Oakleigh VIC 3166",
+      "size": "2400 sq/m",
+      "phone": "0392633938",
+      "email": "oakleighrec@gmail.com",
       "lat": -37.8995,
       "lng": 145.0956
     },
     {
       "id": 4,
       "name": "Mount Waverley Youth Centre",
-      "address": "🏠 45 Stephensons Road, Mount Waverley VIC 3149",
-      "size": "📐 2100 sq/m",
-      "phone": "📞 0398552001",
-      "email": "💻 mountyouth@community.org.au"
+      "address": "45 Stephensons Road, Mount Waverley VIC 3149",
+      "size": "2100 sq/m",
+      "phone": "0398552001",
+      "email": "mountyouth@community.org.au",
+      "lat": -37.8825,
+      "lng": 145.1291
     },
     {
       "id": 5,
       "name": "Glen Waverley Community Hall",
-      "address": "🏠 700 High Street Road, Glen Waverley VIC 3150",
-      "size": "📐 1800 sq/m",
-      "phone": "📞 0392563100",
-      "email": "💻 gwcommunity@vic.gov.au"
+      "address": "700 High Street Road, Glen Waverley VIC 3150",
+      "size": "1800 sq/m",
+      "phone": "0392563100",
+      "email": "gwcommunity@vic.gov.au",
+      "lat": -37.8781,
+      "lng": 145.1622
     },
     {
       "id": 6,
       "name": "Mulgrave Sports Complex",
-      "address": "🏠 123 Wellington Road, Mulgrave VIC 3170",
-      "size": "📐 3400 sq/m",
-      "phone": "📞 0399552233",
-      "email": "💻 info@mulgravesports.org"
+      "address": "123 Wellington Road, Mulgrave VIC 3170",
+      "size": "3400 sq/m",
+      "phone": "0399552233",
+      "email": "info@mulgravesports.org",
+      "lat": -37.9215,
+      "lng": 145.1834
     },
     {
       "id": 7,
       "name": "Ashwood Recreation Centre",
-      "address": "🏠 33 Ashwood Drive, Ashwood VIC 3147",
-      "size": "📐 2600 sq/m",
-      "phone": "📞 0398204100",
-      "email": "💻 ashwoodrec@vic.gov.au"
+      "address": "33 Ashwood Drive, Ashwood VIC 3147",
+      "size": "2600 sq/m",
+      "phone": "0398204100",
+      "email": "ashwoodrec@vic.gov.au",
+      "lat": -37.8678,
+      "lng": 145.1025
     },
     {
       "id": 8,
       "name": "Brandon Park Hall",
-      "address": "🏠 5 Ferntree Gully Rd, Brandon Park VIC 3150",
-      "size": "📐 1500 sq/m",
-      "phone": "📞 0392345566",
-      "email": "💻 bookings@brandonhall.com"
+      "address": "5 Ferntree Gully Rd, Brandon Park VIC 3150",
+      "size": "1500 sq/m",
+      "phone": "0392345566",
+      "email": "bookings@brandonhall.com",
+      "lat": -37.9067,
+      "lng": 145.1654
     },
     {
       "id": 9,
       "name": "Jordanville Community Centre",
-      "address": "🏠 36 Essex Road, Jordanville VIC 3148",
-      "size": "📐 2200 sq/m",
-      "phone": "📞 0398854455",
-      "email": "💻 contact@jordanville.org.au"
+      "address": "36 Essex Road, Jordanville VIC 3148",
+      "size": "2200 sq/m",
+      "phone": "0398854455",
+      "email": "contact@jordanville.org.au",
+      "lat": -37.8831,
+      "lng": 145.1304
     },
     {
       "id": 10,
       "name": "Syndal Sports Pavilion",
-      "address": "🏠 2 Hunter Street, Syndal VIC 3149",
-      "size": "📐 2750 sq/m",
-      "phone": "📞 0392338899",
-      "email": "💻 admin@syndalsports.com.au"
+      "address": "2 Hunter Street, Syndal VIC 3149",
+      "size": "2750 sq/m",
+      "phone": "0392338899",
+      "email": "admin@syndalsports.com.au",
+      "lat": -37.8812,
+      "lng": 145.1456
+    },
+    {
+      "id": 11,
+      "name": "SA Community Centre",
+      "address": "34 Elle Road, Jordanville VIC 3148",
+      "size": "2500 sq/m",
+      "phone": "0398893055",
+      "email": "contact@mpsdpcopkpecw.org.au",
+      "lat": -37.8821,
+      "lng": 145.1267
+    },
+    {
+      "id": 12,
+      "name": "Arron Community Centre",
+      "address": "20 Happy Road, Syndal VIC 3149",
+      "size": "2200 sq/m",
+      "phone": "0398854455",
+      "email": "contact@csldpaille.org.au",
+      "lat": -37.8802,
+      "lng": 145.1478
+    },
+    {
+      "id": 13,
+      "name": "Kcoekcepf Community Centre",
+      "address": "36 Essex Road, Jordanville VIC 3148",
+      "size": "2200 sq/m",
+      "phone": "0398854455",
+      "email": "contact@dcjoisodclle.org.au",
+      "lat": -37.8861,
+      "lng": 145.1294
+    },
+    {
+      "id": 14,
+      "name": "Mountajopd Community Centre",
+      "address": "36 Essex Road, Jordanville VIC 3148",
+      "size": "2200 sq/m",
+      "phone": "0398854455",
+      "email": "contact@jodcscjoalle.org.au",
+      "lat": -37.8091,
+      "lng": 145.1354
+    },
+    {
+      "id": 15,
+      "name": "Ckpecevmpewv Community Centre",
+      "address": "36 Essex Road, Jordanville VIC 3148",
+      "size": "2200 sq/m",
+      "phone": "0398854455",
+      "email": "contact@jcmweecmomee.org.au",
+      "lat": -37.8491,
+      "lng": 145.1044
+    },
+    {
+      "id": 16,
+      "name": "Akdpooke Community Centre",
+      "address": "36 Essex Road, Jordanville VIC 3148",
+      "size": "2200 sq/m",
+      "phone": "0398854455",
+      "email": "contact@jcjowecewle.org.au",
+      "lat": -37.8903,
+      "lng": 145.1295
     }
   ]
 }

@@ -3,7 +3,7 @@
   <div class="container">
     <h1 class="mb-4">Interactive Tables</h1>
 
-    <!-- ============ Venues ============ -->
+    <!-- ================== Venues ================== -->
     <section class="mb-5">
       <header class="d-flex flex-wrap align-items-end gap-3 mb-3">
         <div>
@@ -14,15 +14,8 @@
         <div class="ms-auto d-flex gap-2 align-items-end">
           <div class="form-group">
             <label class="form-label" for="vSearch">Search</label>
-            <input
-              id="vSearch"
-              v-model.trim="vSearch"
-              type="search"
-              class="form-control"
-              placeholder="name / address / phone / email"
-              inputmode="search"
-              autocomplete="off"
-            />
+            <input id="vSearch" v-model.trim="vSearch" type="search" class="form-control"
+                   placeholder="name / address / phone / email" />
           </div>
 
           <div class="form-group">
@@ -35,15 +28,8 @@
 
           <div class="form-group">
             <label class="form-label" for="vMinSize">Min Size (m²)</label>
-            <input
-              id="vMinSize"
-              v-model.number="vFilters.minSize"
-              type="number"
-              min="0"
-              class="form-control"
-              placeholder="e.g. 2000"
-              inputmode="numeric"
-            />
+            <input id="vMinSize" v-model.number="vFilters.minSize" type="number" min="0"
+                   class="form-control" placeholder="e.g. 2000" />
           </div>
 
           <div class="form-group">
@@ -54,8 +40,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label visually-hidden" for="vExport">Export</label>
-            <button id="vExport" class="btn btn-outline-primary" type="button" @click="exportVenuesCSV">
+            <button class="btn btn-outline-primary" type="button" @click="exportVenuesCSV">
               Export CSV
             </button>
           </div>
@@ -98,15 +83,30 @@
         </table>
       </div>
 
-      <Pager
-        :page="vPage"
-        :page-size="vPageSize"
-        :total="vFilteredSorted.length"
-        @setPage="vPage = $event"
-      />
+      <!-- Venues pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <small class="text-muted">
+          Showing <strong>{{ vPageRows.length }}</strong> of <strong>{{ vFilteredSorted.length }}</strong> results ·
+          Page <strong>{{ vPage }}</strong> / {{ vTotalPages }}
+        </small>
+
+        <ul class="pagination mb-0">
+          <li class="page-item" :class="{ disabled: vPage<=1 }">
+            <button class="page-link" type="button" :disabled="vPage<=1"
+                    @click="vPage = Math.max(1, vPage-1)">Prev</button>
+          </li>
+          <li v-for="p in vTotalPages" :key="'vp'+p" class="page-item" :class="{ active: p===vPage }">
+            <button class="page-link" type="button" @click="vPage = p">{{ p }}</button>
+          </li>
+          <li class="page-item" :class="{ disabled: vPage>=vTotalPages }">
+            <button class="page-link" type="button" :disabled="vPage>=vTotalPages"
+                    @click="vPage = Math.min(vTotalPages, vPage+1)">Next</button>
+          </li>
+        </ul>
+      </div>
     </section>
 
-    <!-- ============ Activities ============ -->
+    <!-- ================== Activities ================== -->
     <section>
       <header class="d-flex flex-wrap align-items-end gap-3 mb-3">
         <div>
@@ -117,15 +117,8 @@
         <div class="ms-auto d-flex gap-2 align-items-end">
           <div class="form-group">
             <label class="form-label" for="aSearch">Search</label>
-            <input
-              id="aSearch"
-              v-model.trim="aSearch"
-              type="search"
-              class="form-control"
-              placeholder="title / location / description"
-              inputmode="search"
-              autocomplete="off"
-            />
+            <input id="aSearch" v-model.trim="aSearch" type="search" class="form-control"
+                   placeholder="title / location / description" />
           </div>
 
           <div class="form-group">
@@ -138,15 +131,8 @@
 
           <div class="form-group">
             <label class="form-label" for="aMaxFee">Max Fee ($)</label>
-            <input
-              id="aMaxFee"
-              v-model.number="aFilters.maxFee"
-              type="number"
-              min="0"
-              class="form-control"
-              placeholder="e.g. 5"
-              inputmode="numeric"
-            />
+            <input id="aMaxFee" v-model.number="aFilters.maxFee" type="number" min="0"
+                   class="form-control" placeholder="e.g. 5" />
           </div>
 
           <div class="form-group">
@@ -157,8 +143,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label visually-hidden" for="aExport">Export</label>
-            <button id="aExport" class="btn btn-outline-primary" type="button" @click="exportActivitiesCSV">
+            <button class="btn btn-outline-primary" type="button" @click="exportActivitiesCSV">
               Export CSV
             </button>
           </div>
@@ -205,21 +190,36 @@
         </table>
       </div>
 
-      <Pager
-        :page="aPage"
-        :page-size="aPageSize"
-        :total="aFilteredSorted.length"
-        @setPage="aPage = $event"
-      />
+      <!-- Activities pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <small class="text-muted">
+          Showing <strong>{{ aPageRows.length }}</strong> of <strong>{{ aFilteredSorted.length }}</strong> results ·
+          Page <strong>{{ aPage }}</strong> / {{ aTotalPages }}
+        </small>
+
+        <ul class="pagination mb-0">
+          <li class="page-item" :class="{ disabled: aPage<=1 }">
+            <button class="page-link" type="button" :disabled="aPage<=1"
+                    @click="aPage = Math.max(1, aPage-1)">Prev</button>
+          </li>
+          <li v-for="p in aTotalPages" :key="'ap'+p" class="page-item" :class="{ active: p===aPage }">
+            <button class="page-link" type="button" @click="aPage = p">{{ p }}</button>
+          </li>
+          <li class="page-item" :class="{ disabled: aPage>=aTotalPages }">
+            <button class="page-link" type="button" :disabled="aPage>=aTotalPages"
+                    @click="aPage = Math.min(aTotalPages, aPage+1)">Next</button>
+          </li>
+        </ul>
+      </div>
     </section>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { toCSV, downloadCSV } from '../utils/export'
 
-/* ---------- small presentational icon for sort ---------- */
+/* ---------- Sort icon component ---------- */
 const SortIcon = {
   props: { by: String, dir: String, col: String },
   template: `
@@ -230,77 +230,38 @@ const SortIcon = {
     </span>`
 }
 
-/* ---------- simple pager component ---------- */
-const Pager = {
-  props: { page: Number, pageSize: Number, total: Number },
-  emits: ['setPage'],
-  computed: {
-    pages () {
-      const n = Math.max(1, Math.ceil(this.total / this.pageSize))
-      return Array.from({ length: n }, (_, i) => i + 1)
-    }
-  },
-  template: `
-    <nav class="d-flex justify-content-between align-items-center" aria-label="Table pagination">
-      <small class="text-muted">
-        <strong>{{ total }}</strong> results · Page <strong>{{ page }}</strong> / {{ pages.length }}
-      </small>
-      <ul class="pagination mb-0">
-        <li class="page-item" :class="{ disabled: page<=1 }">
-          <button class="page-link" @click="$emit('setPage', Math.max(1, page-1))">Prev</button>
-        </li>
-        <li v-for="p in pages" :key="p" class="page-item" :class="{ active: p===page }">
-          <button class="page-link" @click="$emit('setPage', p)">{{ p }}</button>
-        </li>
-        <li class="page-item" :class="{ disabled: page>=pages.length }">
-          <button class="page-link" @click="$emit('setPage', Math.min(pages.length, page+1))">Next</button>
-        </li>
-      </ul>
-    </nav>
-  `
-}
-
 /* ---------- helpers ---------- */
 const stripEmoji = (s='') => s.replace(/\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu, '')
 const norm = (s='') => stripEmoji(String(s)).toLowerCase().trim()
 
-/* ---------- Venues state ---------- */
+/* ================== Venues state ================== */
 const venues = ref([])
-
 const vSearch = ref('')
-const vFilters = reactive({
-  suburb: '',
-  minSize: null
-})
+const vFilters = reactive({ suburb: '', minSize: null })
 const vSort = reactive({ by: 'name', dir: 'asc' })
 const vPage = ref(1)
-const vPageSize = ref(10) 
+const vPageSize = ref(10)
 
-/* ---------- Activities state ---------- */
+/* ================== Activities state ================== */
 const activities = ref([])
-
 const aSearch = ref('')
-const aFilters = reactive({
-  type: '',
-  maxFee: null
-})
+const aFilters = reactive({ type: '', maxFee: null })
 const aSort = reactive({ by: 'date', dir: 'asc' })
 const aPage = ref(1)
 const aPageSize = ref(10)
 
-/* ---------- data loading ---------- */
+/* ---------- load data ---------- */
 onMounted(async () => {
-  // venues.json: array of { id, name, address, size, phone, email }
+  // venues.json: array or { data: [] }
   const vRes = await fetch('/venues.json')
   const vRaw = await vRes.json()
-  venues.value = (Array.isArray(vRaw) ? vRaw : (vRaw.data ?? []))
-    .map(x => ({
-      ...x,
-      sizeNum: Number(String(x.size).match(/\d[\d,]*/)?.[0]?.replace(/,/g, '') || 0),
-      suburb: stripEmoji(String(x.address)).split(',').at(-2)?.trim() || ''
-    }))
+  venues.value = (Array.isArray(vRaw) ? vRaw : (vRaw.data ?? [])).map(x => ({
+    ...x,
+    sizeNum: Number(String(x.size).match(/\d[\d,]*/)?.[0]?.replace(/,/g, '') || 0),
+    suburb: stripEmoji(String(x.address)).split(',').at(-2)?.trim() || ''
+  }))
 
-  // activities.json: array of { id, title, type, date, time, location, fee, desc }
+  // activities.json
   const aRes = await fetch('/activities.json')
   const aRaw = await aRes.json()
   activities.value = Array.isArray(aRaw) ? aRaw : (aRaw.data ?? [])
@@ -330,9 +291,18 @@ const vFilteredSorted = computed(() => {
   return rows
 })
 
+const vTotalPages = computed(() =>
+  Math.max(1, Math.ceil(vFilteredSorted.value.length / vPageSize.value))
+)
+
 const vPageRows = computed(() => {
   const start = (vPage.value - 1) * vPageSize.value
   return vFilteredSorted.value.slice(start, start + vPageSize.value)
+})
+
+watch([vSearch, () => vFilters.suburb, () => vFilters.minSize, vPageSize, vFilteredSorted], () => {
+  if (vPage.value > vTotalPages.value) vPage.value = vTotalPages.value
+  if (vPage.value < 1) vPage.value = 1
 })
 
 function toggleVSort(col) {
@@ -365,9 +335,18 @@ const aFilteredSorted = computed(() => {
   return rows
 })
 
+const aTotalPages = computed(() =>
+  Math.max(1, Math.ceil(aFilteredSorted.value.length / aPageSize.value))
+)
+
 const aPageRows = computed(() => {
   const start = (aPage.value - 1) * aPageSize.value
   return aFilteredSorted.value.slice(start, start + aPageSize.value)
+})
+
+watch([aSearch, () => aFilters.type, () => aFilters.maxFee, aPageSize, aFilteredSorted], () => {
+  if (aPage.value > aTotalPages.value) aPage.value = aTotalPages.value
+  if (aPage.value < 1) aPage.value = 1
 })
 
 function toggleASort(col) {
@@ -378,7 +357,6 @@ function toggleASort(col) {
 
 /* ---------- Export CSV ---------- */
 function exportVenuesCSV() {
-  const rows = vFilteredSorted.value
   const columns = [
     { key: 'name',    label: 'Name' },
     { key: 'address', label: 'Address' },
@@ -386,13 +364,12 @@ function exportVenuesCSV() {
     { key: 'phone',   label: 'Phone' },
     { key: 'email',   label: 'Email' }
   ]
-  const csv = toCSV(rows, columns)
+  const csv = toCSV(vFilteredSorted.value, columns)
   const ts = new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')
   downloadCSV(csv, `venues-${ts}.csv`)
 }
 
 function exportActivitiesCSV() {
-  const rows = aFilteredSorted.value
   const columns = [
     { key: 'title',    label: 'Title' },
     { key: 'type',     label: 'Type' },
@@ -401,12 +378,12 @@ function exportActivitiesCSV() {
     { key: 'location', label: 'Location' },
     { key: 'fee',      label: 'Fee ($)' }
   ]
-  const csv = toCSV(rows, columns)
+  const csv = toCSV(aFilteredSorted.value, columns)
   const ts = new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')
   downloadCSV(csv, `activities-${ts}.csv`)
 }
 
-/* ---------- formatting ---------- */
+/* ---------- misc ---------- */
 function fmtDate(iso) {
   const d = new Date(iso)
   if (Number.isNaN(+d)) return iso
@@ -418,4 +395,8 @@ function fmtDate(iso) {
 .form-group { min-width: 160px; }
 .table { font-size: 0.95rem; }
 th[role="button"] { user-select: none; cursor: pointer; }
+.page-item.active .page-link {
+  background-color: #198754;
+  border-color: #198754;
+}
 </style>

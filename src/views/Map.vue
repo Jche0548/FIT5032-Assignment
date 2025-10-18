@@ -25,7 +25,7 @@ const selectedVenue = computed(
 const travelMode = ref('DRIVING') // DRIVING | WALKING | BICYCLING | TRANSIT
 
 const origin = ref(null)     // {lat, lng}
-const originText = ref('')   // UI 顯示
+const originText = ref('')   // UI display
 
 let g = null
 let directionsService = null
