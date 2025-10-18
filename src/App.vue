@@ -2,7 +2,7 @@
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { computed, onMounted } from 'vue'
 import { useAuth } from './stores/auth'
-import logoUrl from './assets/wellness.png'
+import logoUrl from './assets/Wellness.png'
 
 const router = useRouter()
 const { state, logout } = useAuth()
